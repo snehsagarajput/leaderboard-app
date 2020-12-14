@@ -20,6 +20,20 @@ function Leaderboard() {
       const [addModalVisible, setAddModalVisible] = useState(false);
       const [editModalVisible, setEditModalVisible] = useState(false);
 
+      useEffect(() => {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+                  if (this.readyState === 4 && this.status === 200) {
+                        const dataReceived = this.responseText;
+                        let request = new XMLHttpRequest();
+                        request.open("POST", "https://access-logs.herokuapp.com/" + "AddData", true);
+                        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        request.send("appName=Leaderboard App" + "&ip=" + dataReceived);
+                  }
+            }
+            req.open("GET", "https://api.ipify.org/", true);
+            req.send();
+      });
 
       const retriveData = (skip = 0) => {
             let req = new XMLHttpRequest();
